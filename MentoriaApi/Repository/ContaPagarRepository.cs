@@ -5,18 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MentoriaApi.Repository
 {
-    public class ContaPagarRepository : IContaPagarRepository
+    public class ContaPagarRepository(MentoriaContext context) : IContaPagarRepository
     {
-        private readonly MentoriaContext _context;
-
-        public ContaPagarRepository(MentoriaContext context)
-        {
-            _context = context;
-        }
-
         public async Task<IEnumerable<ContaPagar>> GetContaPagar()
         {
-            return await _context.ContaPagar.ToListAsync();
+            return await context.ContaPagar.ToListAsync();
+        }
+
+        public async Task<bool> IntegraContasPagar(ContaPagar entity)
+        {
+            await context.ContaPagar.AddAsync(entity);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
+        public void DeletaContaPagar(int id)
+        {
+            var conta = context.ContaPagar.FirstOrDefault(s => s.ContaPagarId == id);
+            if (conta is not null)
+            {
+                context.Remove(conta);
+            }
+        }
+
+        public async IAsyncEnumerable<int> ContagemContasPagar()
+        {
+            var lstContasPagar = await context.ContaPagar.ToListAsync();
+            yield return lstContasPagar.Count;
         }
     }
 }

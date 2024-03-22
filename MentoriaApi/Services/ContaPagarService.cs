@@ -5,25 +5,43 @@ namespace MentoriaApi.Services
 {
     public class ContaPagarService(IContaPagarRepository repository) : IContaPagarService
     {
-        public async Task<IEnumerable<ContaPagar>> GetContaPagar()
+        public async Task<IEnumerable<ContaPagar>> GetContaPagarAsync()
         {
-            var conta = await repository.GetContaPagar();
+            var conta = await repository.GetContaPagarAsync();
             return conta;
         }
 
-        public async Task<bool> IntegraContasPagar(ContaPagar entity)
+        public async Task<bool> IntegraContasPagarAsync(ContaPagar entity)
         {
-            return await repository.IntegraContasPagar(entity);
+            return await repository.IntegraContasPagarAsync(entity);
         }
 
-        public void DeletaContaPagar(int id)
+        public async Task IntegraListaContasPagarAsync(IEnumerable<ContaPagar> listContaPagar)
         {
-            repository.DeletaContaPagar(id);
+            await repository.IntegraListaContasPagarAsync(listContaPagar);
         }
 
-        public IAsyncEnumerable<int> ContagemContasPagar()
+        public async Task DeletaContaPagarAsync(int id)
         {
-            return repository.ContagemContasPagar();
+            await repository.DeletaContaPagarAsync(id);
+        }
+
+        public async Task<int> ContagemContasPagarAsync()
+        {
+            return await repository.ContagemContasPagarAsync();
+        }
+        
+        public async Task MediaContasPagarAsync()
+        {
+            var contagem = ContagemContasPagarAsync();
+            var somatorio = SomaValorContasPagarAsync();
+
+            await Task.WhenAll(contagem, somatorio);
+        }
+        
+        private async Task<double> SomaValorContasPagarAsync()
+        {
+            return await repository.ValorContasPagarAsync();
         }
     }
 }

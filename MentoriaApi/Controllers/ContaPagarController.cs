@@ -10,32 +10,81 @@ namespace MentoriaApi.Controllers
     {
         [HttpGet]
         [Route("ConsultaTodaContasPagar")]
-        public async Task<ActionResult<IEnumerable<ContaPagar>>> GetContaPagar()
+        public async Task<ActionResult<IEnumerable<ContaPagar>>> GetContaPagarAsync(CancellationToken ct)
         {
-            var conta = await service.GetContaPagar();
-            return Ok(conta);
+            try
+            {
+                await Task.Delay(5000, ct);
+                var conta = await service.GetContaPagarAsync();
+                return Ok(conta);
+            }
+            catch (TaskCanceledException cte)
+            {
+                return BadRequest(cte.Message);
+            }
         }
 
         [HttpPost]
         [Route("IntegraContaPagar")]
-        public async Task<ActionResult<bool>> IntegraContasPagar(ContaPagar entity)
+        public async Task<ActionResult<bool>> IntegraContasPagarAsync(ContaPagar entity, CancellationToken ct)
         {
-            return await service.IntegraContasPagar(entity);
+            try
+            {
+                await Task.Delay(5000, ct);
+                return await service.IntegraContasPagarAsync(entity);
+            }
+            catch (TaskCanceledException cte)
+            {
+                return BadRequest(cte.Message);
+            }
         }
 
         [HttpDelete]
         [Route("DeletaContaPagar")]
-        public void DeletaContasPagar(int id)
+        public async Task<ActionResult> DeletaContasPagarAsync(int id, CancellationToken ct)
         {
-            service.DeletaContaPagar(id);
+            try
+            {
+                await Task.Delay(5000, ct);
+                await service.DeletaContaPagarAsync(id);
+                return Ok();
+            }
+            catch (TaskCanceledException cte)
+            {
+                return BadRequest(cte.Message);
+            }
         }
 
 
         [HttpGet]
         [Route("ContagemContasPagar")]
-        public Task<IAsyncEnumerable<int>> ContagemContasPagar()
+        public async Task<ActionResult<int>> ContagemContasPagarAsync(CancellationToken ct)
         {
-            return Task.FromResult(service.ContagemContasPagar());
+            try
+            {
+                await Task.Delay(5000, ct);
+                return await service.ContagemContasPagarAsync();
+            }
+            catch (TaskCanceledException cte)
+            {
+                return BadRequest(cte.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("IntegraListaContasPagar")]
+        public async Task<ActionResult> IntegraListaContasPagarAsync(List<ContaPagar> listContasPagar, CancellationToken ct)
+        {
+            try
+            {
+                await Task.Delay(5000, ct);
+                await service.IntegraListaContasPagarAsync(listContasPagar);
+                return Ok();
+            }
+            catch (TaskCanceledException cte)
+            {
+                return BadRequest(cte.Message);
+            }
         }
     }
 }

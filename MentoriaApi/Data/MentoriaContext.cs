@@ -5,6 +5,7 @@ namespace MentoriaApi.Data
 {
     public class MentoriaContext(DbContextOptions<MentoriaContext> options) : DbContext(options)
     {
-        public DbSet<ContaPagar> ContaPagar { get; set; } = default!;
+        public DbSet<ContasPagar> ContasPagar { get; set; } = default!;
+        public DbSet<ContasReceber> ContasReceber { get; set; } = default!;
     }   
 }

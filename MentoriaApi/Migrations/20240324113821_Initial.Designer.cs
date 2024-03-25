@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MentoriaApi.Migrations
 {
     [DbContext(typeof(MentoriaContext))]
-    [Migration("20240225215426_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240324113821_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,13 +24,13 @@ namespace MentoriaApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MentoriaApi.Entidade.ContaPagar", b =>
+            modelBuilder.Entity("MentoriaApi.Entidade.ContasPagar", b =>
                 {
-                    b.Property<int>("ContaPagarId")
+                    b.Property<int>("ContasPagarId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContaPagarId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContasPagarId"));
 
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
@@ -38,9 +38,28 @@ namespace MentoriaApi.Migrations
                     b.Property<double>("Valor")
                         .HasColumnType("float");
 
-                    b.HasKey("ContaPagarId");
+                    b.HasKey("ContasPagarId");
 
-                    b.ToTable("ContaPagar");
+                    b.ToTable("ContasPagar");
+                });
+
+            modelBuilder.Entity("MentoriaApi.Entidade.ContasReceber", b =>
+                {
+                    b.Property<int>("ContasReceberId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContasReceberId"));
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Valor")
+                        .HasColumnType("float");
+
+                    b.HasKey("ContasReceberId");
+
+                    b.ToTable("ContasReceber");
                 });
 #pragma warning restore 612, 618
         }

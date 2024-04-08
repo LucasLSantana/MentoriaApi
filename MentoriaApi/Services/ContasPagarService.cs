@@ -1,4 +1,5 @@
 ﻿using MentoriaApi.Entidade;
+using MentoriaApi.Helpers.Factory;
 using MentoriaApi.Interface.Repository;
 using MentoriaApi.Interface.Service;
 
@@ -14,6 +15,7 @@ namespace MentoriaApi.Services
 
         public async Task<bool> IntegraContasPagarAsync(ContasPagar entity)
         {
+            if (!string.IsNullOrWhiteSpace(entity.Cartao)) await ValidaLimite(entity);
             await repository.IntegraContasPagarAsync(entity);
             await repository.SalvarAlteracoes();
             return true;
@@ -48,6 +50,13 @@ namespace MentoriaApi.Services
         public async Task<double> ValorContasPagarAsync()
         {
             return await repository.ValorContasPagarAsync();
+        }
+
+        public async Task ValidaLimite(ContasPagar contasPagar)
+        {
+            var cartao = CartaoFactory.GetCartao(contasPagar.Cartao);
+            var limite = await cartao.LimiteCartao();
+            if (limite - contasPagar.Valor < 0) throw new Exception(message: "Sem limite");
         }
     }
 }

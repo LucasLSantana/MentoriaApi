@@ -117,7 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CartaoInvalido" xml:space="preserve">
+    <value>Cartão inválido</value>
+  </data>
+  <data name="DescricaoNaoInformado" xml:space="preserve">
+    <value>Descrição não informado</value>
+  </data>
+  <data name="OperacaoNaoImplementada" xml:space="preserve">
+    <value>Operação não implementada</value>
+  </data>
   <data name="OperacaoRealizadaComSucesso" xml:space="preserve">
     <value>Operação realizada com sucesso!</value>
+  </data>
+  <data name="SemLimiteParaOperacao" xml:space="preserve">
+    <value>Sem limite para a operação</value>
+  </data>
+  <data name="ValorInvalido" xml:space="preserve">
+    <value>Valor inválido</value>
   </data>
 </root>

@@ -7,5 +7,6 @@ namespace MentoriaApi.Data
     {
         public DbSet<ContasPagar> ContasPagar { get; set; } = default!;
         public DbSet<ContasReceber> ContasReceber { get; set; } = default!;
+        public DbSet<Notas> Notas { get; set; } = default!;
     }   
 }

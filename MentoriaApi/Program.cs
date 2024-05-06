@@ -1,8 +1,20 @@
 using MentoriaApi.Data;
 using MentoriaApi.StartupHelper;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Sinks.LogBee;
+using Serilog.Sinks.LogBee.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSerilog((services, lc) => lc
+    .WriteTo.LogBee(new LogBeeApiKey(
+            builder.Configuration["SerilogConfig:LogBee.OrganizationId"]!,
+            builder.Configuration["SerilogConfig:LogBee.ApplicationId"]!,
+            builder.Configuration["SerilogConfig:LogBee.ApiUrl"]!
+        ),
+        services
+    ));
 
 builder.Services.AddDbContext<MentoriaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Mentoria") ?? throw new InvalidOperationException("Connection string 'Mentoria' not found.")));
@@ -40,5 +52,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseLogBeeMiddleware();
 
 app.Run();

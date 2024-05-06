@@ -1,9 +1,12 @@
-﻿namespace MentoriaApi.Entidade;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MentoriaApi.Entidade;
 
 public class ContasReceber
 {
+    [Key]
     public int ContasReceberId { get; set; }
-    public string? Descricao { get; set;}
+    public required string Descricao { get; set;}
     public double Valor { get; set; }
-    public string Cartao { get; set; }
+    public int Cartao { get; set; }
 }

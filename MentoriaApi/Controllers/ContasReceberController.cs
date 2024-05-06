@@ -31,7 +31,8 @@ namespace MentoriaApi.Controllers
             try
             {
                 await Task.Delay(5000, ct);
-                return await service.IntegraContasReceberAsync(entity);
+                await service.IntegraContasReceberAsync(entity);
+                return Created();
             }
             catch (TaskCanceledException cte)
             {

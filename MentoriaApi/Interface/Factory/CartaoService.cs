@@ -2,7 +2,7 @@
 {
     public interface Cartao
     {
-        Task<string> TipoCartao();
-        Task<double> LimiteCartao();
+        string TipoCartao();
+        double LimiteCartao();
     }
 }

@@ -2,6 +2,7 @@
 using MentoriaApi.Helpers.Factory;
 using MentoriaApi.Interface.Repository;
 using MentoriaApi.Interface.Service;
+using MentoriaApi.Resource;
 
 namespace MentoriaApi.Services
 {
@@ -13,12 +14,11 @@ namespace MentoriaApi.Services
             return conta;
         }
 
-        public async Task<bool> IntegraContasPagarAsync(ContasPagar entity)
+        public async Task IntegraContasPagarAsync(ContasPagar entity)
         {
-            if (!string.IsNullOrWhiteSpace(entity.Cartao)) await ValidaLimite(entity);
+            ValidaLimite(entity);
             await repository.IntegraContasPagarAsync(entity);
             await repository.SalvarAlteracoes();
-            return true;
         }
 
         public async Task IntegraListaContasPagarAsync(IEnumerable<ContasPagar> listContaPagar)
@@ -52,11 +52,28 @@ namespace MentoriaApi.Services
             return await repository.ValorContasPagarAsync();
         }
 
-        public async Task ValidaLimite(ContasPagar contasPagar)
+        public void ValidaLimite(ContasPagar contasPagar)
         {
             var cartao = CartaoFactory.GetCartao(contasPagar.Cartao);
-            var limite = await cartao.LimiteCartao();
-            if (limite - contasPagar.Valor < 0) throw new Exception(message: "Sem limite");
+            var limite = cartao.LimiteCartao();
+            if (limite - contasPagar.Valor < 0) throw new Exception(message: Messages.SemLimiteParaOperacao);
+        }
+
+
+        public IEnumerable<double> CalcularValorTotalPagar(ContasPagar conta, double desconto = 0)
+        {
+            yield return conta.Valor - desconto;
+        }
+
+        public async Task<double> RecuperDescontoContasPagar(double desconto)
+        {
+            var listContasPagar = await repository.GetContasPagarAsync();
+            var valor = 0.0;
+            foreach (var item in listContasPagar)
+            {
+                valor += CalcularValorTotalPagar(item, desconto).FirstOrDefault();
+            }
+            return valor;
         }
     }
 }

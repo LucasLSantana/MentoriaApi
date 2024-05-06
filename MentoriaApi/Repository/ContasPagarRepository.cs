@@ -8,8 +8,6 @@ namespace MentoriaApi.Repository
 {
     public class ContasPagarRepository(MentoriaContext context) : IContasPagarRepository
     {
-        private IContasPagarRepository _contasPagarRepositoryImplementation;
-
         public async Task<IEnumerable<ContasPagar>> GetContasPagarAsync()
         {
             return await context.ContasPagar.ToListAsync();

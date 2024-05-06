@@ -1,17 +1,18 @@
-﻿using MentoriaApi.Interface.Factory;
+﻿using MentoriaApi.Helpers.Const;
+using MentoriaApi.Interface.Factory;
 
 namespace MentoriaApi.Services
 {
     class MasterCardService : Cartao
     {
-        public async Task<double> LimiteCartao()
+        public double LimiteCartao()
         {
             return 2500;
         }
 
-        public async Task<string> TipoCartao()
+        public string TipoCartao()
         {
-            return "Master Card";
+            return StringConst.MasterCard;
         }
     }
 }

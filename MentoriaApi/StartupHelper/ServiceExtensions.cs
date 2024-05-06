@@ -1,5 +1,4 @@
-﻿using MentoriaApi.Interface;
-using MentoriaApi.Interface.Repository;
+﻿using MentoriaApi.Interface.Repository;
 using MentoriaApi.Interface.Service;
 using MentoriaApi.Repository;
 using MentoriaApi.Services;
@@ -14,6 +13,7 @@ namespace MentoriaApi.StartupHelper
 
             services.AddScoped<IContasPagarService, ContasPagarService>();
             services.AddScoped<IContasReceberService, ContasReceberService>();
+            services.AddScoped<INotasService, NotasService>();
 
             #endregion
 
@@ -21,10 +21,9 @@ namespace MentoriaApi.StartupHelper
 
             services.AddScoped<IContasPagarRepository, ContasPagarRepository>();
             services.AddScoped<IContasReceberRepository, ContasReceberRepository>();
+            services.AddScoped<INotasRepository, NotasRepository>();
 
             #endregion
-
-
         }
     }
 }

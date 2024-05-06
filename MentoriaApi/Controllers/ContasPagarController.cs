@@ -7,8 +7,10 @@ namespace MentoriaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContasPagarController(IContasPagarService service) : ControllerBase
+    public class ContasPagarController(IContasPagarService contasPagarService) : ControllerBase
     {
+        private readonly IContasPagarService _service = contasPagarService;
+
         [HttpGet]
         [Route("ConsultaTodaContasPagar")]
         public async Task<ActionResult<IEnumerable<ContasPagar>>> GetContasPagarAsync(CancellationToken ct)
@@ -16,7 +18,7 @@ namespace MentoriaApi.Controllers
             try
             {
                 await Task.Delay(5000, ct);
-                var conta = await service.GetContasPagarAsync();
+                var conta = await _service.GetContasPagarAsync();
                 return Ok(conta);
             }
             catch (TaskCanceledException cte)
@@ -27,13 +29,13 @@ namespace MentoriaApi.Controllers
 
         [HttpPost]
         [Route("IntegraContasPagar")]
-        public async Task<ActionResult> IntegraContasPagarAsync(CancellationToken ct, ContasPagar entity)
+        public async Task<ActionResult> IntegraContasPagarAsync(CancellationToken ct, ContasPagar model)
         {
             try
             {
                 await Task.Delay(5000, ct);
-                await service.IntegraContasPagarAsync(entity);
-                return Ok(Messages.OperacaoRealizadaComSucesso);
+                await _service.IntegraContasPagarAsync(model);
+                return Created();
             }
             catch (TaskCanceledException cte)
             {
@@ -48,7 +50,7 @@ namespace MentoriaApi.Controllers
             try
             {
                 await Task.Delay(5000, ct);
-                await service.DeletaContaPagarAsync(id);
+                await _service.DeletaContaPagarAsync(id);
                 return Ok(Messages.OperacaoRealizadaComSucesso);
             }
             catch (TaskCanceledException cte)
@@ -65,7 +67,7 @@ namespace MentoriaApi.Controllers
             try
             {
                 await Task.Delay(5000, ct);
-                return await service.ContagemContasPagarAsync();
+                return await _service.ContagemContasPagarAsync();
             }
             catch (TaskCanceledException cte)
             {
@@ -80,7 +82,7 @@ namespace MentoriaApi.Controllers
             try
             {
                 await Task.Delay(5000, ct);
-                await service.IntegraListaContasPagarAsync(listContasPagar);
+                await _service.IntegraListaContasPagarAsync(listContasPagar);
                 return Ok(Messages.OperacaoRealizadaComSucesso);
             }
             catch (TaskCanceledException cte)
@@ -96,7 +98,7 @@ namespace MentoriaApi.Controllers
             try
             {
                 await Task.Delay(5000, ct);
-                await service.AtualizaValorContasPagarAsync(listId, valorAtualizar);
+                await _service.AtualizaValorContasPagarAsync(listId, valorAtualizar);
                 return Ok(Messages.OperacaoRealizadaComSucesso);
             }
             catch (TaskCanceledException cte)
@@ -112,10 +114,26 @@ namespace MentoriaApi.Controllers
             try
             {
                 await Task.Delay(5000, ct);
-                var valor = await service.ValorContasPagarAsync();
+                var valor = await _service.ValorContasPagarAsync();
                 return Ok(valor);
             }
             catch (TaskCanceledException cte)
+            {
+                return BadRequest(cte.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("VerificarValorDepoisDesconto")]
+        public async Task<ActionResult> RecuperDescontoContasPagar(CancellationToken ct, double desconto)
+        {
+            try
+            {
+                await Task.Delay(5000, ct);
+                var valor = await _service.RecuperDescontoContasPagar(desconto);
+                return Ok(valor);
+            }
+            catch(TaskCanceledException cte)
             {
                 return BadRequest(cte.Message);
             }

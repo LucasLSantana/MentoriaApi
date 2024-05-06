@@ -61,11 +61,56 @@ namespace MentoriaApi.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cartão inválido.
+        /// </summary>
+        public static string CartaoInvalido {
+            get {
+                return ResourceManager.GetString("CartaoInvalido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Descrição não informado.
+        /// </summary>
+        public static string DescricaoNaoInformado {
+            get {
+                return ResourceManager.GetString("DescricaoNaoInformado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operação não implementada.
+        /// </summary>
+        public static string OperacaoNaoImplementada {
+            get {
+                return ResourceManager.GetString("OperacaoNaoImplementada", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operação realizada com sucesso!.
         /// </summary>
         public static string OperacaoRealizadaComSucesso {
             get {
                 return ResourceManager.GetString("OperacaoRealizadaComSucesso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sem limite para a operação.
+        /// </summary>
+        public static string SemLimiteParaOperacao {
+            get {
+                return ResourceManager.GetString("SemLimiteParaOperacao", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valor inválido.
+        /// </summary>
+        public static string ValorInvalido {
+            get {
+                return ResourceManager.GetString("ValorInvalido", resourceCulture);
             }
         }
     }
